@@ -16,7 +16,7 @@ class Cinema {
 		Cinema();
 
 		std::string list_movies();
-		Movie get_movie(int index);
+		const Movie& get_movie(int index);
 		void add_movie(Movie movie);
 		void set_basic_price_ticket(float basic_price_ticket);
 		void add_projection_room(ProjectionRoom projection_room);

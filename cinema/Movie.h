@@ -4,7 +4,7 @@
 #define MOVIE_H
 
 
-enum GENRE {
+enum class GENRE {
 	ACTION,
 	COMEDY,
 	DRAMA,
@@ -26,13 +26,13 @@ class Movie {
 		Movie(std::string name, GENRE genre);
 
 		void set_index(int movie_index);
-		int get_index();
+		const int& get_index() const;
 
 		void set_title(std::string title);
-		std::string get_title() const;
+		const std::string& get_title() const;
 
 		void set_genre(GENRE genre);
-		GENRE get_genre() const;
+		const GENRE& get_genre() const;
 
 		std::string to_string() const;
 };

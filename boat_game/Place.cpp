@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 #include <stdexcept>
 
@@ -8,9 +9,9 @@ Place::Place() {
 
 }
 
-Place::Place(std::string name, int capacity) {
-	this -> name = name;
-	this -> capacity = capacity;
+Place::Place(std::string name, int capacity)
+	: name(std::move(name)), capacity(capacity) {
+
 	entities = new Entity*[capacity];
 
 	for (int i = 0; i < capacity; i++)
@@ -24,7 +25,7 @@ Place::~Place() {
 }
 
 
-std::string Place::get_name() const {
+const std::string& Place::get_name() const {
 	return name;
 }
 
@@ -32,11 +33,11 @@ Entity** Place::get_entities() const {
 	return entities;
 }
 
-int Place::get_capacity() const {
+const int& Place::get_capacity() const {
 	return capacity;
 }
 
-int Place::get_entity_number() const {
+const int& Place::get_entity_number() const {
 	return entity_number;
 }
 
@@ -63,9 +64,8 @@ void Place::remove_entity(Entity* entity) {
 
 bool Place::is_vigilant_there() const {
 	for (int i = 0; i < capacity; i++)
-		if (entities[i] && entities[i] -> get_is_vigilant()) {
+		if (entities[i] && entities[i] -> get_is_vigilant())
 			return true;
-		}
 
 	return false;
 }
@@ -83,7 +83,7 @@ std::string Place::to_string() const {
 			output += "\t ID: " + std::to_string(entities[i] -> get_id()) +
 						" Name: " + entities[i] -> get_name() +
 						" List index: " + std::to_string(i) +
-						" Memory address: " + std::to_string(reinterpret_cast<uintptr_t>(entities[i])) + '\n';
+						" Memory address: " + std::to_string(reinterpret_cast <uintptr_t>(entities[i])) + '\n';
 
 	return output;
 }

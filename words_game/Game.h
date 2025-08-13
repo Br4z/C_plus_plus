@@ -8,40 +8,32 @@
 
 
 
-enum Direction {
-	LEFT_TO_RIGHT,
-	RIGH_TO_LEFT
-};
 
-enum Orientation {
-	HORIZONTAL,
-	VERTICAL
-};
 
 
 class Game {
 	private:
 		Board board;
 		bool game_status = false;
-		Direction direction;
+		DIRECTION direction;
 		int available_moves;
 		int current_move = 0;
 		int score = 0;
-		Orientation orientation;
+		ORIENTATION orientation;
 		std::string word;
 
 		bool did_player_win();
-		bool is_possible_form_word(std::string word);
+		bool is_possible_form_word(std::string_view word);
 
 	public:
-		Game(int rows = 10, int columns = 10);
+		Game(int rows=10, int columns=10);
 
-		void set_direction(Direction direction);
-		void set_orientation(Orientation orientation);
-		bool set_word(std::string word);
+		void set_direction(DIRECTION direction);
+		void set_orientation(ORIENTATION orientation);
+		bool set_word(std::string &word);
 
 		bool get_is_game_finished();
-		int get_score();
+		const int& get_score() const;
 
 		std::string get_string_board();
 

@@ -14,8 +14,9 @@ class MLQScheduler {
 		std::vector <Queue> queues;
 	public:
 		MLQScheduler();
+		~MLQScheduler();
 
-		std::vector <Process> get_processes();
+		const std::vector <Process>& get_processes() const;
 
 		void add_process(Process process);
 		void assign_processes();

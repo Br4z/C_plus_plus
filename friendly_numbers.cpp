@@ -5,19 +5,6 @@
 #include <string>
 
 
-/**
- * Calculates the abundance index of a given integer.
- *
- * The abundance index is the ratio of the sum of a number's divisors
- * to the number itself. This value is used to find "friendly numbers," which
- * are integers that share the same abundance index.
- *
- * The formula is: Abundance Index = \sigma(n) / n
- * where \sigma(n) is the sum of the divisors of n (including n itself).
- *
- * @param The positive integer for which to calculate the index.
- * @return the abundance index as a floating-point value. Returns 0 for any non-positive input.
- */
 float abundance_index(int n) {
 	if (n <= 0)
 		return 0;

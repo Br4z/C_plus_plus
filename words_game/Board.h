@@ -2,9 +2,19 @@
 #define BOARD_H
 
 
+enum class DIRECTION {
+	NORMAL,
+	INVERTED
+};
+
+enum class ORIENTATION {
+	HORIZONTAL,
+	VERTICAL
+};
+
 class Board {
 	private:
-		char letter_frequencies[26] = { 0 };
+		char letter_frequencies[26];
 		char** board;
 		int columns;
 		int rows;
@@ -14,11 +24,10 @@ class Board {
 		Board();
 		~Board();
 
-
-		char* get_letters_frecuency();
-		int get_columns();
-		int get_rows();
-		char get_letter(int x, int y);
+		const int& get_columns() const;
+		const int& get_rows() const;
+		bool is_possible_form_word(std::string_view word, ORIENTATION orientation) const;
+		bool find_word(std::string_view word, ORIENTATION orientation, DIRECTION direction) const;
 
 		void initialize_board(int rows, int columns);
 		bool exchange_letters(int x_1, int y_1, int x_2, int y_2);

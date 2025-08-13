@@ -7,7 +7,7 @@
 #define GAME_H
 
 
-enum DIRECTION {
+enum class DIRECTION {
 	LEFT,
 	RIGHT
 };
@@ -28,10 +28,10 @@ class Game {
 		Game(int additional_entities, int boat_capacity);
 		~Game();
 
-		int get_entity_number() const;
+		const int& get_entity_number() const;
 
 		std::string list_entities() const;
-		void add_entity(std::string name);
+		void add_entity(std::string &name);
 		void add_predator_to_entity(int prey_id, int predator_id);
 		std::string consult_entity(int id) const;
 		std::string game_status();

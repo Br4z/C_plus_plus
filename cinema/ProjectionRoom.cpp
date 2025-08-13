@@ -7,11 +7,9 @@ ProjectionRoom::ProjectionRoom() {
 
 }
 
-ProjectionRoom::ProjectionRoom(std::string name) {
-	this -> name = name;
-}
+ProjectionRoom::ProjectionRoom(std::string name) : name(name) { }
 
-std::string ProjectionRoom::get_name() {
+const std::string& ProjectionRoom::get_name() const {
 	return name;
 }
 
@@ -22,11 +20,11 @@ void ProjectionRoom::add_projection(Projection projection) {
 		projections[projections_length++] = projection;
 }
 
-int ProjectionRoom::get_projections_length() {
+const int& ProjectionRoom::get_projections_length() const {
 	return projections_length;
 }
 
-Projection ProjectionRoom::get_projection(int index) const {
+const Projection& ProjectionRoom::get_projection(int index) const {
 	if (0 > index || index >= projections_length)
 		throw std::out_of_range("Error: Invalid projection index");
 

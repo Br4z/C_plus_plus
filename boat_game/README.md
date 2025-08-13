@@ -8,73 +8,88 @@ The Boat Game is a puzzle where you need to transport a set of entities across a
 
 ```mermaid
 classDiagram
-    class Entity {
-        -int id;
-        -std::string name;
-        -bool is_vigilant;
+	class Entity {
+		- static int next_id
+		- int id
+		- std::string name
+		- bool is_vigilant
 
-        -Entity** predators;
-        -int predator_number;
+		- Entity** predators
+		- int predator_number
 
-        -Entity** preys;
-        -int prey_number;
+		- Entity** preys
+		- int prey_number
 
-        +int get_id() const
-        +std::string get_name() const
-        +bool get_is_vigilant() const
+		+ Entity()
+		+ Entity(std::string name, bool is_vigilant, int game_entities)
+		+ ~Entity()
 
-        +Entity** get_predators()
-        +int get_predator_number() const
+		+ const int& get_id() const
+		+ const std::string& get_name() const
+		+ const bool& get_is_vigilant() const
 
-        +Entity** get_preys()
-        +int get_prey_number() const
+		+ Entity** get_predators()
+		+ const int& get_predator_number() const
 
-        +void add_predator(Entity* predator)
-        +void add_prey(Entity* prey)
-    }
+		+ Entity** get_preys()
+		+ const int& get_prey_number() const
 
-    class Place {
-        -std::string name;
-        -Entity entities;
-        -int capacity;
-        -int entity_number;
+		+ void add_predator(Entity* predator)
+		+ void add_prey(Entity* prey)
+	}
 
-        +std::string get_name() const
-        +Entity** get_entities() const
-        +int get_capacity() const
-        +int get_entity_number() const
+	class Place {
+		- std::string name
+		- Entity** entities
+		- int capacity
+		- int entity_number
 
-        +void add_entity(Entity* entity)
-        +void remove_entity(Entity* entity)
-        +bool is_vigilant_there() const
+		+ Place()
+		+ Place(std::string name, int capacity)
+		+ ~Place()
 
-        +std::string to_string() const
-    }
+		+ const std::string& get_name() const
+		+ Entity** get_entities() const
+		+ const int& get_capacity() const
+		+ const int& get_entity_number() const
 
-    class Game {
-        -Place* places[4]
-        -Entity** entities;
-        -int entity_number;
-        -int boat_capacity;
+		+ void add_entity(Entity* entity)
+		+ void remove_entity(Entity* entity)
+		+ bool is_vigilant_there() const
 
-        -bool is_prey_of(int entity_1_id, int entity_2_id) const
-        -int get_entity_place(int entity_id) const
-        -std::string center_text(const std::string &text, int width) const
-        -int max_width_in_column(int column) const
-    
-        +int get_entity_number() const
-        +std::string list_entities() const
-        +void add_entity(std::string name)
-        +void add_predator_to_entity(int prey_id, int predator_id)
-        +std::string consult_entity(int id) const
-        +std::string game_status()
-        +void move_entity(int entity_id, DIRECTION direction)
-        +void move_boat()
-        +std::string debug() const
-        +std::string to_string() const
-    }
+		+ std::string to_string() const
+	}
 
-    Entity "1" -- "*" Place : contains
-    Place "1" -- "*" Game : manages
-    Entity "1" -- "*" Game : uses
+	class Game {
+		- Place* places[4]
+		- Entity** entities
+		- int entity_number
+		- int actual_entity
+		- int boat_capacity
+
+		- bool is_prey_of(int entity_1_id, int entity_2_id) const
+		- int get_entity_place(int entity_id) const
+		- std::string center_text(const std::string &text, int width) const
+		- int max_width_in_column(int column) const
+
+		+ Game(int additional_entities, int boat_capacity)
+		+ ~Game()
+
+		+ const int& get_entity_number() const
+
+		+ std::string list_entities() const
+		+ void add_entity(std::string name)
+		+ void add_predator_to_entity(int prey_id, int predator_id)
+		+ std::string consult_entity(int id) const
+		+ std::string game_status()
+		+ void move_entity(int entity_id, DIRECTION direction)
+		+ void move_boat()
+
+		+ std::string debug() const
+		+ std::string to_string() const
+	}
+
+	Entity "1" -- "*" Place : contains
+	Place "1" -- "*" Game : manages
+	Entity "1" -- "*" Game :
 ```

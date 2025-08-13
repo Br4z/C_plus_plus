@@ -7,14 +7,15 @@
 class Process {
 	private:
 		std::string label;
+		int original_burst_time;
 		int burst_time;
 		int arrival_time;
 		int queue;
 		int priority;
-		int waiting_time = 0;
-		int completion_time = 0;
-		int response_time = 0;
-		int turnaround_time = 0;
+		int waiting_time = -1;
+		int completion_time = -1;
+		int response_time = -1;
+		int turnaround_time = -1;
 	public:
 		Process(
 					const std::string &label,
@@ -24,13 +25,14 @@ class Process {
 					int priority
 				);
 
-		int get_burst_time() const;
-		int get_arrival_time() const;
-		int get_queue() const;
-		int get_waiting_time() const;
-		int get_completion_time() const;
-		int get_response_time() const;
-		int get_turnaround_time() const;
+		const int& get_original_burst_time() const;
+		const int& get_burst_time() const;
+		const int& get_arrival_time() const;
+		const int& get_queue() const;
+		const int& get_waiting_time() const;
+		const int& get_completion_time() const;
+		const int& get_response_time() const;
+		const int& get_turnaround_time() const;
 
 		void set_burst_time(int burst_time);
 		void set_waiting_time(int waiting_time);

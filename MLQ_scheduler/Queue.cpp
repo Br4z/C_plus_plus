@@ -1,14 +1,15 @@
 #include "Queue.h"
 
 
-Queue::Queue() {
-	scheduling_algorithm = nullptr;
-}
+Queue::Queue() : scheduling_algorithm(nullptr) { }
 
 Queue::Queue(SchedulingAlgorithm* scheduling_algorithm) {
 	this -> scheduling_algorithm = scheduling_algorithm;
 }
 
+SchedulingAlgorithm*& Queue::get_scheduling_algorithm() {
+	return scheduling_algorithm;
+}
 
 void Queue::add_process(Process* process) {
 	processes.push(process);

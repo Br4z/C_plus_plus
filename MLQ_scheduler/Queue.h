@@ -15,6 +15,7 @@ class Queue {
 		Queue();
 		Queue(SchedulingAlgorithm* scheduling_algorithm);
 
+		SchedulingAlgorithm*& get_scheduling_algorithm();
 		void add_process(Process* process);
 		int run(int actual_time);
 

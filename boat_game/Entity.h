@@ -21,15 +21,15 @@ class Entity {
 		Entity(std::string name, bool is_vigilant, int game_entities);
 		~Entity();
 
-		int get_id() const;
-		std::string get_name() const;
-		bool get_is_vigilant() const;
+		const int& get_id() const;
+		const std::string& get_name() const;
+		const bool& get_is_vigilant() const;
 
 		Entity** get_predators();
-		int get_predator_number() const;
+		const int& get_predator_number() const;
 
 		Entity** get_preys();
-		int get_prey_number() const;
+		const int& get_prey_number() const;
 
 		void add_predator(Entity* predator);
 		void add_prey(Entity* prey);

@@ -9,7 +9,7 @@ class FCFS : public SchedulingAlgorithm {
 		FCFS();
 		~FCFS();
 
-		int run(int actual_time, std::queue <Process*> processes) override;
+		int run(int actual_time, std::queue <Process*>& processes) override;
 };
 
 

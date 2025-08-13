@@ -30,7 +30,7 @@ Projection::Projection(Movie movie, int start_hour,
 	}
 }
 
-Movie Projection::get_movie() {
+const Movie& Projection::get_movie() const {
 	return movie;
 }
 
@@ -38,7 +38,7 @@ void Projection::set_start_hour(int hour) {
 	start_hour = hour;
 }
 
-int Projection::get_start_hour() const {
+const int& Projection::get_start_hour() const {
 	return start_hour;
 }
 
@@ -46,7 +46,7 @@ void Projection::set_start_minute(int minute) {
 	start_minute = minute;
 }
 
-int Projection::get_start_minute() const {
+const int& Projection::get_start_minute() const {
 	return start_minute;
 }
 
@@ -54,7 +54,7 @@ void Projection::set_end_hour(int hour) {
 	end_hour = hour;
 }
 
-int Projection::get_end_hour() const {
+const int& Projection::get_end_hour() const {
 	return end_hour;
 }
 
@@ -62,7 +62,7 @@ void Projection::set_end_minute(int minute) {
 	end_minute = minute;
 }
 
-int Projection::get_end_minute() const {
+const int& Projection::get_end_minute() const {
 	return end_minute;
 }
 

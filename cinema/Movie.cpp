@@ -5,16 +5,14 @@ Movie::Movie() {
 
 }
 
-Movie::Movie(std::string title, GENRE genre) {
-	this -> title = title;
-	this -> genre = genre;
-}
+Movie::Movie(std::string title, GENRE genre)
+	: title(std::move(title)), genre(genre) { }
 
 void Movie::set_index(int movie_index) {
 	this -> movie_index = movie_index;
 }
 
-int Movie::get_index() {
+const int& Movie::get_index() const {
 	return movie_index;
 }
 
@@ -22,7 +20,7 @@ void Movie::set_title(std::string title) {
 	this -> title = title;
 }
 
-std::string Movie::get_title() const {
+const std::string& Movie::get_title() const {
 	return title;
 }
 
@@ -30,35 +28,35 @@ void Movie::set_genre(GENRE genre) {
 	this -> genre = genre;
 }
 
-GENRE Movie::get_genre() const {
+const GENRE& Movie::get_genre() const {
 	return genre;
 }
 
 std::string Movie::to_string() const {
 	std::string genre_string;
 	switch (genre) {
-		case ACTION:
+		case GENRE::ACTION:
 			genre_string = "Action";
 			break;
-		case COMEDY:
+		case GENRE::COMEDY:
 			genre_string = "Comedy";
 			break;
-		case DRAMA:
+		case GENRE::DRAMA:
 			genre_string = "Drama";
 			break;
-		case FANTASY:
+		case GENRE::FANTASY:
 			genre_string = "Fantasy";
 			break;
-		case HORROR:
+		case GENRE::HORROR:
 			genre_string = "Horror";
 			break;
-		case ROMANCE:
+		case GENRE::ROMANCE:
 			genre_string = "Romance";
 			break;
-		case SCIFI:
+		case GENRE::SCIFI:
 			genre_string = "Sci-Fi";
 			break;
-		case SUSPENSE:
+		case GENRE::SUSPENSE:
 			genre_string = "Suspense";
 			break;
 		default:

@@ -4,21 +4,8 @@
 #include "Game.h"
 
 
-Game::Game(int letters_length, std::string* words, int words_length) {
-	this -> letters_length = letters_length;
-	letters = new char[letters_length];
-	this -> words = words;
-	this -> words_length = words_length;
-
-	fill_letters();
-}
-
-Game::Game(int letters_length, char* letters, std::string* words, int words_length) {
-	this -> letters_length = letters_length;
-	this -> letters = letters;
-	this -> words = words;
-	this -> words_length = words_length;
-
+Game::Game(int letters_length, char* letters, int words_length, std::string* words)
+	: letters_length(letters_length), words_length(words_length), letters(letters), words(words) {
 	calculate_letter_frequencies();
 }
 
@@ -27,25 +14,27 @@ Game::~Game() {
 	delete[] words;
 }
 
-
 /**
- * Fills the letters array with random lowercase letters and updates their frequencies.
+ * Generates an array of random lowercase letters.
  *
- * This function initializes the random number generator with the current time,
- * then iterates through the letters array, assigning each element a random
- * lowercase letter from 'a' to 'z'. It also updates the letter_frequencies array
- * to reflect the number of occurrences of each letter.
+ * @param letters_length The number of random letters to generate.
+ * @return A pointer to a dynamically allocated array containing random lowercase letters.
+ *         The caller is responsible for deleting the allocated memory using delete[].
+ *
+ * @note This function seeds the random number generator with the current time.
  */
-void Game::fill_letters() {
+char* Game::fill_letters(int letters_length) {
+	char* random_letters = new char[letters_length];
 	srand(time(NULL));
 
 	for (int i = 0; i < letters_length; i++) {
 		int random_number = rand() % 26;
 		char random_letter = 'a' + random_number;
 
-		letters[i] = random_letter;
-		letter_frequencies[random_number] += 1;
+		random_letters[i] = random_letter;
 	}
+
+	return random_letters;
 }
 
 /**
@@ -54,7 +43,7 @@ void Game::fill_letters() {
  * This function iterates through the letters array and increments the
  * corresponding index in the letter_frequencies array for each letter found.
  * The letter_frequencies array is indexed from 0 to 25, corresponding to
- * the letters 'a' to 'z'.
+ * the letters "a" to "z".
  */
 void Game::calculate_letter_frequencies() {
 	for (int i = 0; i < letters_length; i++) {
@@ -116,12 +105,12 @@ int* Game::letter_positions(char letter) {
  * @param word The word to be verified.
  * @return true if the word can be formed using the available letters, false otherwise.
  */
-bool Game::verify_word(std::string word) {
-	int word_legth = word.length();
+bool Game::verify_word(std::string_view word) {
+	int word_length = word.length();
 	int temp_frequencies[26];
 	std::copy(std::begin(letter_frequencies), std::end(letter_frequencies), std::begin(temp_frequencies));
 
-	for (int i = 0; i < word_legth; i++) {
+	for (int i = 0; i < word_length; i++) {
 		char letter = word[i];
 
 		if (temp_frequencies[letter - 'a'] == 0)

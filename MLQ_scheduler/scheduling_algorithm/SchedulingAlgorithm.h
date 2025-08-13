@@ -8,7 +8,8 @@
 
 class SchedulingAlgorithm {
 	public:
-		virtual int run(int actual_time, std::queue <Process*> processes) = 0;
+		virtual ~SchedulingAlgorithm() { };
+		virtual int run(int actual_time, std::queue <Process*>& processes) = 0;
 };
 
 

@@ -29,46 +29,127 @@ bool Board::is_valid_coordinate(int x, int y) {
 }
 
 /**
- * Creates a copy of the letter frequencies array.
- *
- * @return a copy of the letter frequencies array.
- */
-char* Board::get_letters_frecuency() {
-	char* copy = new char[26];
-
-	for (int i = 0; i < 26; i++)
-		copy[i] = letter_frequencies[i];
-
-	return copy;
-}
-
-/**
  * Gets the number of columns in the board.
  *
- * @return the number of columns in the board.
+ * @return a const reference of the number of columns in the board.
  */
-int Board::get_columns() {
+const int& Board::get_columns() const {
 	return columns;
 }
 
 /**
  * Gets the number of rows in the board.
  *
- * @return the number of rows in the board.
+ * @return a cont reference of the number of rows in the board.
  */
-int Board::get_rows() {
+const int& Board::get_rows() const {
 	return rows;
 }
 
 /**
- * Gets the letter at the specified position on the board.
+ * Checks if it is possible to form a word on the game board.
  *
- * @param x The x-coordinate of the position.
- * @param y The y-coordinate of the position.
- * @return the letter at the specified position.
+ * @param word The word to check.
+ * @param orientation The orientation of the word to check.
+ * @return true if it is possible to form the word, false otherwise.
  */
-char Board::get_letter(int x, int y) {
-	return board[y][x];
+bool Board::is_possible_form_word(std::string_view word, ORIENTATION orientation) const {
+	int word_length = word.length();
+
+	if (orientation == ORIENTATION::HORIZONTAL) { // Horizontal
+		if (word_length > columns)
+			return false;
+	} else
+		if (word_length > rows)
+			return false;
+
+	char temp_frequencies[26];
+	for (int i = 0; i < 26; i++)
+		temp_frequencies[i] = letter_frequencies[i];
+
+	for (char letter : word) {
+		int index = letter - 'a';
+		int letter_frequency = temp_frequencies[index];
+
+		if (!letter_frequency)
+			return false;
+
+		temp_frequencies[index] = letter_frequency - 1;
+	}
+
+	return true;
+}
+
+bool Board::find_word(std::string_view word, ORIENTATION orientation, DIRECTION direction) const {
+	int word_length = word.length();
+
+	if (orientation == ORIENTATION::HORIZONTAL) {
+		if (direction == DIRECTION::NORMAL) { // Left to right
+			for (int i = 0; i < rows; i++) {
+				int matching_letters = 0;
+
+				for (int j = 0; j <= columns - word_length; j++)
+					for (int k = 0; k < word_length; k++) {
+						char letter = board[i][j + k];
+
+						if (word[matching_letters] == letter) {
+							if (++matching_letters == word_length)
+								return true;
+						} else
+							break;
+					}
+			}
+		} else { // Right to left
+			for (int i = 0; i < rows; i++) {
+				int matching_letters = 0;
+
+				for (int j = columns - 1; j >= word_length - 1; j--)
+					for (int k = 0; k < word_length; k++) {
+						char letter = board[i][j - k];
+
+						if (word[matching_letters] == letter) {
+							if (++matching_letters == word_length)
+								return true;
+						} else
+							break;
+					}
+			}
+		}
+	} else { // Vertical
+		if (direction == DIRECTION::NORMAL) { // Top to bottom
+			for (int i = 0; i < columns; i++) {
+				int matching_letters = 0;
+
+				for (int j = 0; j <= rows - word_length; j++)
+					for (int k = 0; k < word_length; k++) {
+						char letter = board[j + k][i];
+
+						if (word[matching_letters] == letter) {
+							if (++matching_letters == word_length)
+								return true;
+						} else
+							break;
+					}
+			}
+		} else { // Bottom to up
+			for (int i = 0; i < columns; i++) {
+				int matching_letters = 0;
+
+				for (int j = rows - 1; j >= word_length - 1; j--)
+					for (int k = 0; k < word_length; k++) {
+						char letter = board[j - k][i];
+
+						if (word[matching_letters] == letter) {
+							if (++matching_letters == word_length)
+								return true;
+						} else
+							break;
+					}
+			}
+		}
+	}
+
+	return false;
 }
 
 /**
@@ -120,6 +201,9 @@ bool Board::exchange_letters(int x_1, int y_1, int x_2, int y_2) {
  * the letter frequencies.
  */
 void Board::fill_board() {
+	for (int i = 0; i < 26; i++)
+		letter_frequencies[i] = 0;
+
 	srand(time(0));
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < columns; j++) {
@@ -138,13 +222,13 @@ void Board::fill_board() {
  */
 std::string Board::to_string() {
 	std::string result;
-	for (int i = 0; i < rows; i++) {
+	for (int i = 0; i < rows + 1; i++) {
 		result += std::to_string(i) + '\t';
 		for (int j = 0; j < columns; j++) {
 			if (i == 0)
 				result += std::to_string(j + 1);
 			else
-				result += board[i][j];
+				result += board[i - 1][j];
 			result += '\t';
 		}
 		result += '\n';

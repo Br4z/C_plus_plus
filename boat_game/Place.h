@@ -17,10 +17,10 @@ class Place {
 		Place(std::string name, int capacity);
 		~Place();
 
-		std::string get_name() const;
+		const std::string& get_name() const;
 		Entity** get_entities() const;
-		int get_capacity() const;
-		int get_entity_number() const;
+		const int& get_capacity() const;
+		const int& get_entity_number() const;
 
 		void add_entity(Entity* entity);
 		void remove_entity(Entity* entity);

@@ -19,8 +19,12 @@ MLQScheduler::MLQScheduler() {
 	queues[2] = FCFS_queue;
 }
 
+MLQScheduler::~MLQScheduler() {
+	for (int i = 0; i < 3; i++)
+		delete queues[i].get_scheduling_algorithm();
+}
 
-std::vector <Process> MLQScheduler::get_processes() {
+const std::vector <Process>& MLQScheduler::get_processes() const {
 	return processes;
 }
 
@@ -28,13 +32,15 @@ void MLQScheduler::run() {
 	int actual_time = 0;
 
 	int RR_1_time = queues[0].run(actual_time);
-	actual_time += RR_1_time;
+	actual_time = RR_1_time;
+
 
 	int RR_2_time = queues[1].run(actual_time);
-	actual_time += RR_2_time;
+	actual_time = RR_2_time;
+
 
 	int FCFS_time = queues[2].run(actual_time);
-	actual_time += FCFS_time;
+	actual_time = FCFS_time;
 }
 
 void MLQScheduler::add_process(Process process) {
@@ -42,9 +48,9 @@ void MLQScheduler::add_process(Process process) {
 }
 
 void MLQScheduler::assign_processes() {
-	int processes_legth = processes.size();
+	int processes_length = processes.size();
 
-	for (int i = 0; i < processes_legth; i++) {
+	for (int i = 0; i < processes_length; i++) {
 		Process* process = &processes[i];
 
 		queues[process -> get_queue() - 1].add_process(process);

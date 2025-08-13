@@ -13,10 +13,10 @@ class ProjectionRoom {
 		ProjectionRoom();
 		ProjectionRoom(std::string name);
 
-		std::string get_name();
+		const std::string& get_name() const;
 		void add_projection(Projection projection);
-		int get_projections_length();
-		Projection get_projection(int index) const;
+		const int& get_projections_length() const;
+		const Projection& get_projection(int index) const;
 
 		std::string to_string() const;
 };

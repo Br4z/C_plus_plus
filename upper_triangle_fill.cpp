@@ -7,20 +7,16 @@ int main() {
 	const int n = 5;
 	std::vector <std::vector <int>> A(n, std::vector <int>(n, 1));
 
-	// Counter for the sequence of numbers
 	int z = 0;
 
-	// Selects which diagonal to fill
 	for (int i = 1; i < n; ++i) {
-		// Iterates along the currently selected diagonal
-		// The number of elements in each diagonal decreases as "i" increases.
 		for (int j = 0; j < n - i; ++j) {
-			// Calculate the column index "k" for the current diagonal element.
 			int k = i + j;
 			A[j][k] = z++;
 		}
 	}
 
+	// Print the resulting matrix.
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j) {
 			// std::setw(3) adds padding to align the numbers neatly.

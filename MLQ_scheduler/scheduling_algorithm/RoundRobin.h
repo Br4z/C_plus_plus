@@ -11,7 +11,7 @@ class RoundRobin : public SchedulingAlgorithm {
 		RoundRobin(int time_quantum);
 		~RoundRobin();
 
-		int run(int actual_time, std::queue <Process*> processes) override;
+		int run(int actual_time, std::queue <Process*>& processes) override;
 };
 
 

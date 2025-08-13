@@ -15,7 +15,7 @@ std::string Cinema::list_movies() {
 	return output;
 }
 
-Movie Cinema::get_movie(int index) {
+const Movie& Cinema::get_movie(int index) {
 	if (0 > index || index >= movies_length)
 		throw std::out_of_range("Error: invalid movie index");
 	else
@@ -27,8 +27,7 @@ void Cinema::add_movie(Movie movie) {
 		throw std::runtime_error("Error: maximum number of movies reached");
 	else {
 		movie.set_index(movies_length + 1);
-		movies[movies_length] = movie;
-		movies_length++;
+		movies[movies_length++] = movie;
 	}
 }
 
@@ -49,7 +48,7 @@ std::string Cinema::search_movies_by_genre(GENRE genre) {
 		Movie movie = movies[i];
 
 		if (movie.get_genre() == genre)
-			output += movie.to_string();
+			output += movie.to_string() + '\n';
 	}
 	return output;
 }

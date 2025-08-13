@@ -3,6 +3,7 @@
 
 #include "Game.h"
 
+
 Game::Game(int additional_entities, int boat_capacity) {
 	this -> boat_capacity = boat_capacity;
 	entity_number = 4 + additional_entities;
@@ -45,7 +46,7 @@ Game::~Game() {
 }
 
 
-int Game::get_entity_number() const {
+const int& Game::get_entity_number() const {
 	return entity_number;
 }
 
@@ -62,7 +63,7 @@ std::string Game::list_entities() const {
 	return output;
 }
 
-void Game::add_entity(std::string name) {
+void Game::add_entity(std::string &name) {
 	entities[actual_entity] = new Entity(name, false, entity_number);
 	places[0] -> add_entity(entities[actual_entity++]);
 }
@@ -102,7 +103,7 @@ std::string Game::consult_entity(int id) const {
 
 bool Game::is_prey_of(int entity_1_id, int entity_2_id) const {
 	Entity** possible_predator_preys = entities[entity_2_id - 1] -> get_preys();
-	int prey_number =  entities[entity_2_id - 1] -> get_prey_number();
+	int prey_number = entities[entity_2_id - 1] -> get_prey_number();
 
 	for (int i = 0; i < prey_number; i++)
 		if (entity_1_id == possible_predator_preys[i] -> get_id())
@@ -145,7 +146,7 @@ std::string Game::game_status() {
 					int other_entity_id = other_entity -> get_id();
 
 					if (is_prey_of(entity_id, other_entity_id))
-						output += entities[j] -> get_name() + " eated " + entity -> get_name() + '\n';
+						output += entities[j] -> get_name() + " ate " + entity -> get_name() + '\n';
 				}
 			}
 		}
@@ -184,7 +185,7 @@ void Game::move_entity(int entity_id, DIRECTION direction) {
 	if (entity_index < 0 || entity_index >= entity_number)
 		throw std::runtime_error("Error: entity index out of bounds");
 
-	if (direction == LEFT) {
+	if (direction == DIRECTION::LEFT) {
 		if (entity_place != 0) {
 			if (places[entity_place - 1] -> get_name() != "boat" ||
 				(places[entity_place - 1] -> get_name() == "boat" &&

@@ -31,15 +31,15 @@ Entity::~Entity() {
 }
 
 
-int Entity::get_id() const {
+const int& Entity::get_id() const {
 	return id;
 }
 
-std::string Entity::get_name() const {
+const std::string& Entity::get_name() const {
 	return name;
 }
 
-bool Entity::get_is_vigilant() const {
+const bool& Entity::get_is_vigilant() const {
 	return is_vigilant;
 }
 
@@ -47,7 +47,7 @@ Entity** Entity::get_predators() {
 	return predators;
 }
 
-int Entity::get_predator_number() const {
+const int& Entity::get_predator_number() const {
 	return predator_number;
 }
 
@@ -55,7 +55,7 @@ Entity** Entity::get_preys() {
 	return preys;
 }
 
-int Entity::get_prey_number() const {
+const int& Entity::get_prey_number() const {
 	return prey_number;
 }
 

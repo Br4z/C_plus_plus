@@ -1,40 +1,50 @@
 #include "MyProcess.h"
 
 
-Process::Process(const std::string &label, int burst_time, int arrival_time, int queue, int priority) {
-	this -> label = label;
-	this -> burst_time = burst_time;
-	this -> arrival_time = arrival_time;
-	this -> queue = queue;
-	this -> priority = priority;
-}
+Process::Process(
+	const std::string &label,
+	int burst_time,
+	int arrival_time,
+	int queue,
+	int priority
+)
+	: label(label),
+	original_burst_time(burst_time),
+	burst_time(burst_time),
+	arrival_time(arrival_time),
+	queue(queue),
+	priority(priority)
+{ }
 
-
-int Process::get_burst_time() const {
+const int& Process::get_original_burst_time() const {
 	return burst_time;
 }
 
-int Process::get_arrival_time() const {
+const int& Process::get_burst_time() const {
+	return burst_time;
+}
+
+const int& Process::get_arrival_time() const {
 	return arrival_time;
 }
 
-int Process::get_queue() const {
+const int& Process::get_queue() const {
 	return queue;
 }
 
-int Process::get_waiting_time() const {
+const int& Process::get_waiting_time() const {
 	return waiting_time;
 }
 
-int Process::get_completion_time() const {
+const int& Process::get_completion_time() const {
 	return completion_time;
 }
 
-int Process::get_response_time() const {
+const int& Process::get_response_time() const {
 	return response_time;
 }
 
-int Process::get_turnaround_time() const {
+const int& Process::get_turnaround_time() const {
 	return turnaround_time;
 }
 

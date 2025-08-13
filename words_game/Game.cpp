@@ -7,88 +7,13 @@ Game::Game(int rows, int columns) {
 	board.initialize_board(rows, columns);
 }
 
-
 /**
  * Checks if the player has won the game by finding the word on the board.
  *
  * @return true if the player has won, false otherwise.
  */
 bool Game::did_player_win() {
-	int word_length = word.length();
-	int rows = board.get_rows();
-	int columns = board.get_columns();
-
-	if (orientation == HORIZONTAL) {
-		if (direction == LEFT_TO_RIGHT) {
-			for (int i = 0; i < rows; i++) {
-				int matching_letters = 0;
-
-				for (int j = 0; j <= columns - word_length; j++) {
-					for (int k = 0; k < word_length; k++) {
-						char letter = board.get_letter(j + k, i);
-
-						if (word[matching_letters] == letter) {
-							if (++matching_letters == word_length)
-								return true;
-						} else
-							break;
-					}
-				}
-			}
-		} else {
-			for (int i = 0; i < rows; i++) {
-				int matching_letters = 0;
-
-				for (int j = columns - 1; j >= word_length - 1; j--) {
-					for (int k = 0; k < word_length; k++) {
-						char letter = board.get_letter(j - k, i);
-
-						if (word[matching_letters] == letter) {
-							if (++matching_letters == word_length)
-								return true;
-						} else
-							break;
-					}
-				}
-			}
-		}
-	} else {
-		if (direction == LEFT_TO_RIGHT) { // TOP_TO_BOTTOM
-			for (int i = 0; i < columns; i++) {
-				int matching_letters = 0;
-
-				for (int j = 0; j <= rows - word_length; j++) {
-					for (int k = 0; k < word_length; k++) {
-						char letter = board.get_letter(i, j + k);
-
-						if (word[matching_letters] == letter) {
-							if (++matching_letters == word_length)
-								return true;
-						} else
-							break;
-					}
-				}
-			}
-		} else { // BOTTOM_TO_TOP
-			for (int i = 0; i < columns; i++) {
-				int matching_letters = 0;
-
-				for (int j = rows - 1; j >= word_length - 1; j--) {
-					for (int k = 0; k < word_length; k++) {
-						char letter = board.get_letter(i, j - k);
-
-						if (word[matching_letters] == letter) {
-							if (++matching_letters == word_length)
-								return true;
-						} else
-							break;
-					}
-				}
-			}
-		}
-	}
-
-	return false;
+	return board.find_word(word, orientation, direction);
 }
 
 /**
@@ -97,29 +22,8 @@ bool Game::did_player_win() {
  * @param word The word to check.
  * @return true if it is possible to form the word, false otherwise.
  */
-bool Game::is_possible_form_word(std::string word) {
-	int word_length = word.length();
-
-	if (orientation == HORIZONTAL) {
-		if (word_length > board.get_columns())
-			return false;
-	} else
-		if (word_length > board.get_rows())
-			return false;
-
-	char* letter_frequencies = board.get_letters_frecuency();
-
-	for (char letter : word) {
-		int index = letter - 'a';
-		int letter_frequency = letter_frequencies[index];
-
-		if (!letter_frequency)
-			return false;
-
-		letter_frequencies[index] = letter_frequency - 1;
-	}
-
-	return true;
+bool Game::is_possible_form_word(std::string_view word) {
+	return board.is_possible_form_word(word, orientation);
 }
 
 /**
@@ -127,7 +31,7 @@ bool Game::is_possible_form_word(std::string word) {
  *
  * @param direction The direction to set.
  */
-void Game::set_direction(Direction direction) {
+void Game::set_direction(DIRECTION direction) {
 	this -> direction = direction;
 }
 
@@ -136,7 +40,7 @@ void Game::set_direction(Direction direction) {
  *
  * @param orientation The orientation to set.
  */
-void Game::set_orientation(Orientation orientation) {
+void Game::set_orientation(ORIENTATION orientation) {
 	this -> orientation = orientation;
 }
 
@@ -149,7 +53,7 @@ void Game::set_orientation(Orientation orientation) {
  * @param word The word to be set for the game.
  * @return true if the word is possible and successfully set, false otherwise.
  */
-bool Game::set_word(std::string word) {
+bool Game::set_word(std::string &word) {
 	if (is_possible_form_word(word)) {
 		this -> word = word;
 		available_moves = word.length();
@@ -170,9 +74,9 @@ bool Game::get_is_game_finished() {
 /**
  * Gets the current score of the game.
  *
- * @return the score of the game.
+ * @return a const reference of the score of the game.
  */
-int Game::get_score() {
+const int& Game::get_score() const {
 	return score;
 }
 
@@ -182,9 +86,7 @@ int Game::get_score() {
  * @return the string representation of the game board.
  */
 std::string Game::get_string_board() {
-	std::string string_board = board.to_string();
-
-	return string_board;
+	return board.to_string();
 }
 
 /**
@@ -258,7 +160,7 @@ void Game::play_game() {
 
 	do {
 		std::cout << get_string_board();
-
+		std::cout << "Target word: "<< word << '\n';
 		std::cout << "Movement: " << current_move << '\n';
 
 		std::cout << "Enter the coordinates for the first letter (x_1, y_1): ";
